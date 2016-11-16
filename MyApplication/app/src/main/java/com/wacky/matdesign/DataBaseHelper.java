@@ -3,7 +3,7 @@ package com.wacky.matdesign;
 /**
  * Created by nikhilkumartulseja on 15/11/16.
  */
-   import android.content.Context;
+    import android.content.Context;
     import android.database.sqlite.SQLiteDatabase;
     import android.database.sqlite.SQLiteDatabase.CursorFactory;
     import android.database.sqlite.SQLiteOpenHelper;
@@ -43,4 +43,4 @@ public class DataBaseHelper extends SQLiteOpenHelper
         }
 
     }
-}
+

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.wacky.matdesign.DataBaseHelper;
 
@@ -19,7 +20,7 @@ public class LoginDataBaseAdapter {
     static final int DATABASE_VERSION = 1;
     public static final int NAME_COLUMN = 1;
 
-    static final String DATABASE_CREATE = "create table "+"LOGIN"+
+    public static final String DATABASE_CREATE = "create table "+"LOGIN"+
             "( " +"ID"+" integer primary key autoincrement,"+ "USERNAME  text,PASSWORD text); ";
 
 
@@ -62,7 +63,7 @@ public class LoginDataBaseAdapter {
         //String id=String.valueOf(ID);
         String where="USERNAME=?";
         int numberOFEntriesDeleted= db.delete("LOGIN", where, new String[]{UserName}) ;
-        // Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
+         Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
     }
     public String getSinlgeEntry(String userName)
