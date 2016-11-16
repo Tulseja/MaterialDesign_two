@@ -40,6 +40,13 @@
             android:layout_height="wrap_content"
             android:padding="10dip"
             android:layout_below="@id/header">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/googlesign"
+
+                />
             <!-- Full Name Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
