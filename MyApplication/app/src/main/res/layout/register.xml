@@ -40,6 +40,12 @@
             android:layout_height="wrap_content"
             android:padding="10dip"
             android:layout_below="@id/header">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <!-- Full Name Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

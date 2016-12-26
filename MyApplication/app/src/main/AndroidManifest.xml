@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wacky.matdesign">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,15 +27,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".NavigatorActivity"
-            android:label="@string/title_activity_navigator"
-            android:parentActivityName=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wacky.matdesign.LoginActivity" />
-        </activity>
         <activity android:name=".Activity.AboutUsActivity" />
         <activity android:name=".Activity.PrivacyPolicyActivity" />
         <activity android:name=".Activity.mainNavigator"></activity>

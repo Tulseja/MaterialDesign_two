@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "168722585642",
+    "project_id": "firebase-wacky"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168722585642:android:88e474d94ac25084",
+        "android_client_info": {
+          "package_name": "com.wacky.matdesign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168722585642-quprpm7lgf538il94lntj9gfn1ksnlvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wacky.matdesign",
+            "certificate_hash": "6798F9A8D63716C431F44EC57A8F8B57A652CF39"
+          }
+        },
+        {
+          "client_id": "168722585642-vcfcs9v6vfchoip4o1c20el8k2rk3kj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFf9Im-DqzYXZmRR9HLMh02bY3nm-Feww"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 package com.wacky.matdesign.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -29,7 +30,10 @@ import com.wacky.matdesign.Fragment.SettingsFragment;
 import com.wacky.matdesign.R;
 import com.wacky.matdesign.other.CircleTransform;
 
-public class mainNavigator extends AppCompatActivity {
+public class mainNavigator extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener ,
+        NotificationsFragment.OnFragmentInteractionListener,PhotosFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener
+
+{
 
 
     private NavigationView navigationView;
@@ -63,6 +67,11 @@ public class mainNavigator extends AppCompatActivity {
         setContentView(R.layout.activity_main_navigator);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mHandler = new Handler();
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
@@ -225,11 +234,11 @@ public class mainNavigator extends AppCompatActivity {
                         CURRENT_TAG = TAG_MOVIES;
                         break;*/
                     case R.id.nav_notifications:
-                        navItemIndex = 3;
+                        navItemIndex = 2;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_settings:
-                        navItemIndex = 4;
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
                     case R.id.nav_about_us:
@@ -352,7 +361,14 @@ public class mainNavigator extends AppCompatActivity {
         else
             fab.hide();
     }
+    public void onFragmentInteraction(Uri uri)
+    {
+        //TODO interaction with fragments
+    }
+
 }
+
+
 
 
 
