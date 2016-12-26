@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wacky.matdesign.Activity.* ;
+
 
 import com.wacky.matdesign.Adapters.LoginDataBaseAdapter;
 
@@ -77,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(password.equals(storedPassword))
                 {
                     Toast.makeText(LoginActivity.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), mainNavigator.class) ;
+                    startActivity(i);
 
                 }
                 else
