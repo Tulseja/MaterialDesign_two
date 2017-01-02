@@ -1,14 +1,39 @@
 package com.wacky.matdesign.Fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+//import android.media.Image;
+//import android.
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wacky.matdesign.Adapters.GalleryAdapter;
 import com.wacky.matdesign.R;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.wacky.matdesign.other.AppController;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import com.wacky.matdesign.model.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +52,13 @@ public class PhotosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String TAG = PhotosFragment.class.getSimpleName();
+    private static final String endpoint = "http://api.androidhive.info/json/glide.json";
+
+    private ArrayList<Image> images;
+    private ProgressDialog pDialog;
+    private GalleryAdapter mAdapter;
+    private RecyclerView recyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,12 +85,69 @@ public class PhotosFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
+
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+
+        pDialog = new ProgressDialog(getActivity());
+        images = new ArrayList<>();
+        mAdapter = new GalleryAdapter(getContext(), images);
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        fetchImages();
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void fetchImages() {
+
+        pDialog.setMessage("Downloading json...");
+        pDialog.show();
+
+        JsonArrayRequest req = new JsonArrayRequest(endpoint,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d(TAG, response.toString());
+                pDialog.hide();
+
+                images.clear();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        Image image = new Image();
+                        image.setName(object.getString("name"));
+                        JSONObject url = object.getJSONObject("url");
+                        image.setSmall(url.getString("small"));
+                        image.setMedium(url.getString("medium"));
+                        image.setLarge(url.getString("large"));
+                        image.setTimestamp(object.getString("timestamp"));
+
+                        images.add(image);
+
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        } , new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(req);
     }
 
     @Override

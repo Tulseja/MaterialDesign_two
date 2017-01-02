@@ -15,12 +15,12 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class Utils {
+public class utils {
 
     private Context _context;
 
     // constructor
-    public Utils(Context context) {
+    public utils(Context context) {
         this._context = context;
     }
 
