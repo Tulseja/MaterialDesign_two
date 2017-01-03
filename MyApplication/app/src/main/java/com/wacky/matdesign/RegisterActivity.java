@@ -1,6 +1,7 @@
 package com.wacky.matdesign;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.wacky.matdesign.Activity.mainNavigator;
 import com.wacky.matdesign.Adapters.LoginDataBaseAdapter;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -128,10 +130,28 @@ public class RegisterActivity extends AppCompatActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            String personName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            Intent signInIntent = new Intent(this, mainNavigator.class);
+            signInIntent.putExtra("Name",personName );
+            signInIntent.putExtra("GivenName",personGivenName);
+            signInIntent.putExtra("FamilyName",personFamilyName );
+            signInIntent.putExtra("Email",personEmail);
+            signInIntent.putExtra("PhotoUri",personPhoto);
+
+            startActivity(signInIntent);
+
+
+
 //            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 //            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
+            int i = 0 ;
 //            updateUI(false);
         }
     }

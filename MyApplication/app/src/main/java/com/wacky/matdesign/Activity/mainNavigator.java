@@ -45,7 +45,7 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
     private FloatingActionButton fab;
 
     private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "https://lh3.googleusercontent.com/eCtE_G34M9ygdkmOpYvCag1vBARCmZwnVS6rS5t4JLzJ6QgQSBquM0nuTsCpLhYbKljoyS-txg";
+    private static String urlProfileImg = "https://lh3.googleusercontent.com/eCtE_G34M9ygdkmOpYvCag1vBARCmZwnVS6rS5t4JLzJ6QgQSBquM0nuTsCpLhYbKljoyS-txg";
 
     public static int navItemIndex = 0;
 
@@ -67,6 +67,8 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
         setContentView(R.layout.activity_main_navigator);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         mHandler = new Handler();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -90,6 +92,14 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
             }
 
         });
+        Bundle extras = getIntent().getExtras();
+        if(extras != null)
+        {
+            urlProfileImg = extras.getString("PhotoUri");
+            txtName.setText(extras.getString("Name"));
+            txtWebsite.setText(extras.getString("Email"));
+        }
+
         loadNavHeader();
         setUpNavigationView();
         if (savedInstanceState == null) {
@@ -103,8 +113,8 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
 
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Nikhil Tulseja");
-        txtWebsite.setText("www.androidhive.info");
+//        txtName.setText("Nikhil Tulseja");
+//        txtWebsite.setText("www.androidhive.info");
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
