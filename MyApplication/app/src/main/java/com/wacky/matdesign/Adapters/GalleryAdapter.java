@@ -5,7 +5,7 @@ package com.wacky.matdesign.Adapters;
  */
 
 import android.content.Context;
-import android.media.Image;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 
 import com.wacky.matdesign.R;
+import com.wacky.matdesign.model.Image;
 //import com.wacky.matdesign.Image;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {

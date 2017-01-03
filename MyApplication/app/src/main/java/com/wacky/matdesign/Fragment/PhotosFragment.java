@@ -1,17 +1,22 @@
 package com.wacky.matdesign.Fragment;
 
 import android.annotation.TargetApi;
+import android.app.FragmentTransaction;
 import android.content.Context;
 //import android.media.Image;
 //import android.
+
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+//import android.app.Fragment ;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wacky.matdesign.Activity.SlideshowDialogFragment;
 import com.wacky.matdesign.Adapters.GalleryAdapter;
 import com.wacky.matdesign.R;
 import android.app.ProgressDialog;
@@ -83,6 +88,13 @@ public class PhotosFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -97,17 +109,41 @@ public class PhotosFragment extends Fragment {
 
         pDialog = new ProgressDialog(getActivity());
         images = new ArrayList<>();
-        mAdapter = new GalleryAdapter(getContext(), images);
+        mAdapter = new GalleryAdapter(getActivity(), images);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        recyclerView.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getActivity(), recyclerView, new GalleryAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("images", images);
+                bundle.putInt("position", position);
+
+                android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+                newFragment.setArguments(bundle);
+                newFragment.show(ft, "slideshow");
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
+
         fetchImages();
+
+
 
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+
     private void fetchImages() {
 
         pDialog.setMessage("Downloading json...");
