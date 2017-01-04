@@ -95,7 +95,9 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            urlProfileImg = extras.getString("PhotoUri");
+           // https://lh3.googleusercontent.com/-2oaMIg4MoZE/AAAAAAAAAAI/AAAAAAAAC88/_epgUk3sW8c/photo.jpg
+            urlProfileImg = getIntent().getParcelableExtra("PhotoUri").toString();
+
             txtName.setText(extras.getString("Name"));
             txtWebsite.setText(extras.getString("Email"));
         }
@@ -123,6 +125,7 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
                 .into(imgNavHeaderBg);
 
         // Loading profile image
+        System.out.print(urlProfileImg);
         Glide.with(this).load(urlProfileImg)
                 .crossFade()
                 .thumbnail(0.5f)
