@@ -125,7 +125,7 @@ public class mainNavigator extends AppCompatActivity implements HomeFragment.OnF
                 .into(imgNavHeaderBg);
 
         // Loading profile image
-        System.out.print(urlProfileImg);
+
         Glide.with(this).load(urlProfileImg)
                 .crossFade()
                 .thumbnail(0.5f)
