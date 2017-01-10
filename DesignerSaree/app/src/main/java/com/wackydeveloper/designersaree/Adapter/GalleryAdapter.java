@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 //import com.wacky.matdesign.Image;
 
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder>     {
 
     private List<Image> images;
     private Context mContext;
@@ -32,13 +33,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         public MyViewHolder(View view) {
             super(view);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+
         }
+
     }
 
     public GalleryAdapter(Context context, List<Image> images) {
         mContext = context;
         this.images = images;
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,9 +55,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Image image = images.get(position);
+        final Picasso picasso = Picasso.with(mContext);
+        picasso.resumeTag("Lazy Load");
 
         Picasso.with(mContext)
                 .load(image.getMedium())
+                .tag("Lazy Load")
                 .placeholder(R.drawable.placeholder)
                 .into(holder.thumbnail);
 

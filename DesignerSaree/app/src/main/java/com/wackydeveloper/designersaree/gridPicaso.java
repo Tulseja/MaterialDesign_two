@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.squareup.picasso.Picasso;
 import com.wackydeveloper.designersaree.Adapter.AppController;
 import com.wackydeveloper.designersaree.Adapter.GalleryAdapter;
 import com.wackydeveloper.designersaree.Helper.SlideshowDialogFragment;
@@ -25,6 +26,8 @@ import android.view.View;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class gridPicaso extends AppCompatActivity {
 
@@ -44,6 +47,22 @@ public class gridPicaso extends AppCompatActivity {
         setContentView(R.layout.activity_grid_picaso);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+
+            final Picasso picasso = Picasso.with(getApplicationContext());
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState){
+
+                if (newState == SCROLL_STATE_IDLE ) {
+                    picasso.resumeTag("Lazy Load");
+                } else {
+                    picasso.pauseTag("Lazy Load");
+                }
+            }
+
+
+        });
         pDialog = new ProgressDialog(getApplicationContext());
         images = new ArrayList<>();
         mAdapter = new GalleryAdapter(this, images);
@@ -58,6 +77,7 @@ public class gridPicaso extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("images", images);
                 bundle.putInt("position", position);
+
 
                 android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
@@ -78,10 +98,6 @@ public class gridPicaso extends AppCompatActivity {
     }
 
     private void fetchImages() {
-
-        pDialog.setMessage("Downloading json...");
-//        pDialog.show();
-
         JsonArrayRequest req = new JsonArrayRequest(endpoint, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
