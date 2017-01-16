@@ -115,12 +115,14 @@ public class SlideshowDialogFragment extends DialogFragment {
             ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
             final Picasso picasso = Picasso.with(getContext());
             Image image = images.get(position);
+//            picasso.Builder.class.asSubclass().asSubclass().asSubclass();
+
             Picasso.with(getContext())
                     .load(image.getLarge())
                     .tag("Large")
                     .placeholder(R.drawable.placeholder)
                     .into(imageViewPreview);
-            picasso.pauseTag("Lazy Load");
+//            picasso.pauseTag("Lazy Load");
 //            Glide.with(getActivity()).load(image.getLarge())
 //                    .thumbnail(0.5f)
 //                    .crossFade()

@@ -56,6 +56,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Image image = images.get(position);
         final Picasso picasso = Picasso.with(mContext);
+//        picasso.setIndicatorsEnabled(true);
+//        picasso.setLoggingEnabled(true);
         picasso.resumeTag("Lazy Load");
 
         Picasso.with(mContext)
@@ -70,7 +72,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .into(holder.thumbnail);
     }
-
     @Override
     public int getItemCount() {
         return images.size();
