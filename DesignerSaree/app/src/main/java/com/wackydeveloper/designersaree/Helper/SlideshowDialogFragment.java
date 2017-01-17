@@ -5,6 +5,8 @@ package com.wackydeveloper.designersaree.Helper;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
@@ -15,13 +17,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.wackydeveloper.designersaree.R;
 import com.wackydeveloper.designersaree.model.Image;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static android.R.attr.id;
 
 public class SlideshowDialogFragment extends DialogFragment {
 
@@ -31,6 +41,9 @@ public class SlideshowDialogFragment extends DialogFragment {
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
     private int selectedPosition = 0;
+//     PhotoViewAttacher mAttacher;
+    private Target target ;
+
 
     public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
@@ -110,27 +123,38 @@ public class SlideshowDialogFragment extends DialogFragment {
         public Object instantiateItem(ViewGroup container, int position) {
 
             layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false);
+            final View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false) ;
 
-            ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
             final Picasso picasso = Picasso.with(getContext());
             Image image = images.get(position);
-//            picasso.Builder.class.asSubclass().asSubclass().asSubclass();
-
             Picasso.with(getContext())
                     .load(image.getLarge())
                     .tag("Large")
                     .placeholder(R.drawable.placeholder)
-                    .into(imageViewPreview);
-//            picasso.pauseTag("Lazy Load");
-//            Glide.with(getActivity()).load(image.getLarge())
-//                    .thumbnail(0.5f)
-//                    .crossFade()
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(imageViewPreview);
-//
-            container.addView(view);
+                    .into(target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    // loading of the bitmap was a success
+                    // TODO do some action with the bitmap
+                    SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)view.findViewById(R.id.image_preview);
+                    imageView.setImage(ImageSource.bitmap(bitmap));
 
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    // loading of the bitmap failed
+                    // TODO do some action/warning/error message
+                    Toast.makeText(getContext(),"Can't Load this. " , Toast.LENGTH_LONG) ;
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+//            mAttacher = new PhotoViewAttacher(imageViewPreview);
+            container.addView(view);
             return view;
         }
 
@@ -150,6 +174,8 @@ public class SlideshowDialogFragment extends DialogFragment {
         }
 
     }
+
+
 
 }
 
