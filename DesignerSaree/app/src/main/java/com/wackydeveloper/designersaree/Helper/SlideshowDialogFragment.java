@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +45,14 @@ public class SlideshowDialogFragment extends DialogFragment {
     private TextView lblCount, lblTitle, lblDate;
     private int selectedPosition = 0;
 //     PhotoViewAttacher mAttacher;
-    private Target target ;
+
+    private ProgressBar mProgress;
+    private int mProgressStatus = 0;
+
+
+    private Handler mHandler = new Handler();
+
+
 
 
     public static SlideshowDialogFragment newInstance() {
@@ -57,6 +67,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
+        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
 //        lblDate = (TextView) v.findViewById(R.id.date);
 
         images = (ArrayList<Image>) getArguments().getSerializable("images");
@@ -108,6 +119,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
     }
 
@@ -124,36 +136,46 @@ public class SlideshowDialogFragment extends DialogFragment {
 
             layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false) ;
+            final SubsamplingScaleImageView imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_preview);
+//            mProgress = (ProgressBar)viewin.findViewById(R.id.progressBar);
+            mProgress.setVisibility(View.VISIBLE);
+            mProgress.setProgress(50);
+            
+
 
             final Picasso picasso = Picasso.with(getContext());
+            picasso.pauseTag("Lazy Load");
             Image image = images.get(position);
-            Picasso.with(getContext())
-                    .load(image.getLarge())
-                    .tag("Large")
-                    .placeholder(R.drawable.placeholder)
-                    .into(target = new Target() {
+
+            final Target target  = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     // loading of the bitmap was a success
                     // TODO do some action with the bitmap
-                    SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)view.findViewById(R.id.image_preview);
                     imageView.setImage(ImageSource.bitmap(bitmap));
-
+                    mProgress.setProgress(99);
+                    mProgress.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
                     // loading of the bitmap failed
                     // TODO do some action/warning/error message
-                    Toast.makeText(getContext(),"Can't Load this. " , Toast.LENGTH_LONG) ;
+                    Toast.makeText(getContext(), "Can't Load this.", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onPrepareLoad(Drawable placeHolderDrawable) {
 
                 }
-            });
-//            mAttacher = new PhotoViewAttacher(imageViewPreview);
+            };
+
+            Picasso.with(getContext())
+                    .load(image.getLarge())
+                    .tag("Large")
+                    .placeholder(R.drawable.animation)
+                    .into(target ) ;
+            imageView.setTag(target);
             container.addView(view);
             return view;
         }
@@ -175,8 +197,9 @@ public class SlideshowDialogFragment extends DialogFragment {
 
     }
 
+    }
 
 
-}
+
 
 

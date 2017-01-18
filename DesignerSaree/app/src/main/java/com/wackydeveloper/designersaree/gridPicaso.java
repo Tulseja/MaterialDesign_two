@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
 
@@ -54,6 +55,7 @@ public class gridPicaso extends AppCompatActivity {
         setContentView(R.layout.activity_grid_picaso);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
 
             final Picasso picasso = Picasso.with(getApplicationContext());
@@ -61,7 +63,7 @@ public class gridPicaso extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState){
 
-                if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_SETTLING ) {
+                if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_SETTLING  ) {
                     picasso.resumeTag("Lazy Load");
                 } else {
                     picasso.pauseTag("Lazy Load");
@@ -72,9 +74,7 @@ public class gridPicaso extends AppCompatActivity {
                 picasso.resumeTag("Lazy Load");
 
             }
-
-
-        });
+ });
         pDialog = new ProgressDialog(getApplicationContext());
         images = new ArrayList<>();
         mAdapter = new GalleryAdapter(this, images);
@@ -112,7 +112,7 @@ public class gridPicaso extends AppCompatActivity {
     public String loadJSONFromAsset() {
         String json = null;
         try {
-            InputStream is = getApplicationContext().getAssets().open("photos.json");
+            InputStream is = getApplicationContext().getAssets().open("photos_copy.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

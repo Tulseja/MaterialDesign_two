@@ -48,6 +48,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gallery_thumbnail, parent, false);
+        final Picasso picasso = Picasso.with(mContext);
+        picasso.resumeTag("Lazy Load");
 
         return new MyViewHolder(itemView);
     }
@@ -58,7 +60,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         final Picasso picasso = Picasso.with(mContext);
 //        picasso.setIndicatorsEnabled(true);
 //        picasso.setLoggingEnabled(true);
-        picasso.resumeTag("Lazy Load");
+//        picasso.resumeTag("Lazy Load");
 
         Picasso.with(mContext)
                 .load(image.getMedium())

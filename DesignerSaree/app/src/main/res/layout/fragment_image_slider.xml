@@ -36,8 +36,15 @@
             android:textColor="@android:color/white"
             android:textSize="16dp"
             android:textStyle="bold" />
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
 
+            android:id="@+id/progressBar"
 
+            />
     </LinearLayout>
+
 
 </RelativeLayout>
