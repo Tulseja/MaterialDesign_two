@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -44,7 +45,10 @@ public class SlideshowDialogFragment extends DialogFragment {
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
     private int selectedPosition = 0;
+//
 //     PhotoViewAttacher mAttacher;
+private static final String BUNDLE_STATE = "ImageViewState";
+
 
     private ProgressBar mProgress;
     private int mProgressStatus = 0;
@@ -63,11 +67,18 @@ public class SlideshowDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ImageViewState imageViewState = null;
+        if (savedInstanceState != null && savedInstanceState.containsKey(BUNDLE_STATE)) {
+            imageViewState = (ImageViewState)savedInstanceState.getSerializable(BUNDLE_STATE);
+        }
+
         View v = inflater.inflate(R.layout.fragment_image_slider, container, false);
+
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
-        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
+//        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
 //        lblDate = (TextView) v.findViewById(R.id.date);
 
         images = (ArrayList<Image>) getArguments().getSerializable("images");
@@ -131,30 +142,29 @@ public class SlideshowDialogFragment extends DialogFragment {
         public MyViewPagerAdapter() {
         }
 
+
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(final ViewGroup container, int position) {
 
             layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false) ;
             final SubsamplingScaleImageView imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_preview);
-//            mProgress = (ProgressBar)viewin.findViewById(R.id.progressBar);
-            mProgress.setVisibility(View.VISIBLE);
-            mProgress.setProgress(50);
-            
-
 
             final Picasso picasso = Picasso.with(getContext());
             picasso.pauseTag("Lazy Load");
-            Image image = images.get(position);
+            final Image image = images.get(position);
 
             final Target target  = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     // loading of the bitmap was a success
                     // TODO do some action with the bitmap
+
+//                     ImageViewState  imageviewstate = container.getima
                     imageView.setImage(ImageSource.bitmap(bitmap));
-                    mProgress.setProgress(99);
-                    mProgress.setVisibility(View.GONE);
+
+//                    mProgress.setProgress(99);
+//                    mProgress.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -196,7 +206,22 @@ public class SlideshowDialogFragment extends DialogFragment {
         }
 
     }
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        View rootView = getView();
+        if (rootView != null) {
+            SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)rootView.findViewById(R.id.image_preview);
+            ImageViewState state = imageView.getState();
+            if (state != null) {
+                outState.putSerializable(BUNDLE_STATE, imageView.getState());
+            }
+        }
+    }
+    //Bundle[{ImageViewState=com.davemorrissey.labs.subscaleview.ImageViewState@3bc9399e}]
+    //centerX = 223.5779
+    //centerY = 335.5
+    //scale :- 2.4152656
+    //1113330161
     }
 
 
