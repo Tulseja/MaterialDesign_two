@@ -1,4 +1,4 @@
-package com.etiennelawlor.tinderstack.ui;
+package com.wackydeveloper.designersaree.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,11 +7,12 @@ import android.view.ViewGroup;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 
-import com.etiennelawlor.tinderstack.bus.RxBus;
-import com.etiennelawlor.tinderstack.bus.events.TopCardMovedEvent;
-import com.etiennelawlor.tinderstack.utilities.DisplayUtility;
+import com.wackydeveloper.designersaree.bus.RxBus;
+import com.wackydeveloper.designersaree.bus.events.TopCardMovedEvent;
+import com.wackydeveloper.designersaree.utilities.DisplayUtility;
 
 import rx.Subscription;
+import rx.Scheduler ;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;

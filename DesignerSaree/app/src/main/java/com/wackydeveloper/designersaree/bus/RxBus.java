@@ -1,4 +1,5 @@
-package com.etiennelawlor.tinderstack.bus;
+//package com.etiennelawlor.tinderstack.bus;
+package com.wackydeveloper.designersaree.bus ;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

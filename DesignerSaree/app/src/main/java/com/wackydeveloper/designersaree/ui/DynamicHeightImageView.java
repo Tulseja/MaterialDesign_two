@@ -1,5 +1,4 @@
-package com.etiennelawlor.tinderstack.ui;
-
+package com.wackydeveloper.designersaree.ui;
 /**
  * Created by etiennelawlor on 1/14/15.
  */
@@ -9,7 +8,8 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.etiennelawlor.tinderstack.R;
+import com.wackydeveloper.designersaree.R;
+
 
 /**
  * An {@link ImageView} layout that maintains a consistent width to height aspect ratio.

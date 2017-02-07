@@ -1,7 +1,9 @@
-package com.etiennelawlor.tinderstack.ui;
+package com.wackydeveloper.designersaree.ui;
 
 import android.animation.Animator;
 import android.content.Context;
+
+
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,17 +15,16 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.etiennelawlor.tinderstack.R;
-import com.etiennelawlor.tinderstack.bus.RxBus;
-import com.etiennelawlor.tinderstack.bus.events.TopCardMovedEvent;
-import com.etiennelawlor.tinderstack.models.User;
-import com.etiennelawlor.tinderstack.utilities.DisplayUtility;
 import com.squareup.picasso.Picasso;
+import com.wackydeveloper.designersaree.R;
 
-/**
- * Created by etiennelawlor on 11/17/16.
- */
+import com.wackydeveloper.designersaree.bus.RxBus;
+import com.wackydeveloper.designersaree.bus.events.TopCardMovedEvent;
+import com.wackydeveloper.designersaree.model.Image;
+import com.wackydeveloper.designersaree.model.User;
+import  com.wackydeveloper.designersaree.ui.TinderStackLayout ;
+import com.wackydeveloper.designersaree.utilities.DisplayUtility;
+
 
 public class TinderCardView extends FrameLayout implements View.OnTouchListener {
 
@@ -48,6 +49,8 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
     private float newY;
     private float dX;
     private float dY;
+    private float tempX ;
+    private float tempY ;
     private float rightBoundary;
     private float leftBoundary;
     private int screenWidth;
@@ -86,12 +89,17 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
                     view.clearAnimation();
                     return true;
                 case MotionEvent.ACTION_UP:
+                    tempX = motionEvent.getX();
+                    tempY = motionEvent.getY();
+                    float distance = tempX - oldX ;
                     if(isCardBeyondLeftBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(-(screenWidth)));
                         dismissCard(view, -(screenWidth * 2));
                     } else if(isCardBeyondRightBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(screenWidth));
                         dismissCard(view, (screenWidth * 2));
+                    } else if(distance == 0){
+                        Log.v("Nikhil" ," ImageView Touch Detected !! " ) ;
                     } else {
                         RxBus.getInstance().send(new TopCardMovedEvent(0));
                         resetCard(view);
@@ -150,6 +158,12 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
             padding = DisplayUtility.dp2px(context, 16);
 
             setOnTouchListener(this);
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                //@Override
+//                public void onClick(View v) {
+//                    Log.v("Nikhl", " click on image : haha" );
+//                }
+//            });
         }
     }
 
@@ -232,10 +246,16 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
         setUpDisplayName(displayNameTextView, user);
         setUpUsername(usernameTextView, user);
     }
+    public void bind(Image image){
+        if(image == null)
+            return ;
+        setUpImage(imageView,image);
+        setUpDisplayName(displayNameTextView, image);
+        setUpUsername(usernameTextView, image);
+    }
 
-    private void setUpImage(ImageView iv, User user){
-
-        String avatarUrl = user.getAvatarUrl();
+    private void setUpImage(ImageView iv, Image img){
+        String avatarUrl = img.getMedium();
         if(!TextUtils.isEmpty(avatarUrl)){
             Picasso.with(iv.getContext())
                     .load(avatarUrl)
@@ -243,6 +263,20 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
         }
     }
 
+    private void setUpImage(ImageView iv, User user){
+        String avatarUrl = user.getAvatarUrl();
+        if(!TextUtils.isEmpty(avatarUrl)){
+            Picasso.with(iv.getContext())
+                    .load(avatarUrl)
+                    .into(iv);
+        }
+    }
+    private void setUpDisplayName(TextView tv, Image img){
+        String displayName = img.getName();
+        if(!TextUtils.isEmpty(displayName)){
+            tv.setText(displayName);
+        }
+    }
     private void setUpDisplayName(TextView tv, User user){
         String displayName = user.getDisplayName();
         if(!TextUtils.isEmpty(displayName)){
@@ -250,6 +284,12 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
         }
     }
 
+    private void setUpUsername(TextView tv, Image img){
+        String username = img.getName();
+        if(!TextUtils.isEmpty(username)){
+            tv.setText(username);
+        }
+    }
     private void setUpUsername(TextView tv, User user){
         String username = user.getUsername();
         if(!TextUtils.isEmpty(username)){

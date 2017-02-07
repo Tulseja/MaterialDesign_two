@@ -1,4 +1,4 @@
-package com.etiennelawlor.tinderstack.models;
+package com.wackydeveloper.designersaree.model;
 
 /**
  * Created by etiennelawlor on 11/17/16.

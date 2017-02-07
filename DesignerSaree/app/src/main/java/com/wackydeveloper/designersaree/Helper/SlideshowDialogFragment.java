@@ -32,8 +32,6 @@ import com.squareup.picasso.Target;
 import com.wackydeveloper.designersaree.R;
 import com.wackydeveloper.designersaree.model.Image;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
-
 import static android.R.attr.id;
 
 public class SlideshowDialogFragment extends DialogFragment {

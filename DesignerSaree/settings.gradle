@@ -1,1 +1,1 @@
-include ':app', ':tinderstack'
+include ':app'

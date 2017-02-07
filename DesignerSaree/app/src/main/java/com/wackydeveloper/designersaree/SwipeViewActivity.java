@@ -3,16 +3,9 @@ package com.wackydeveloper.designersaree;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.daprlabs.aaron.swipedeck.SwipeDeck;
-import com.etiennelawlor.tinderstack.models.User;
-import com.etiennelawlor.tinderstack.ui.TinderCardView;
-import com.etiennelawlor.tinderstack.ui.TinderStackLayout;
-import com.wackydeveloper.designersaree.Adapter.SwipeDeckAdapter;
+import com.wackydeveloper.designersaree.Adapter.GalleryAdapter;
 import com.wackydeveloper.designersaree.model.Image;
 
 import org.json.JSONArray;
@@ -26,16 +19,21 @@ import java.util.ArrayList;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
+import com.wackydeveloper.designersaree.model.User;
+import com.wackydeveloper.designersaree.ui.TinderCardView;
+import com.wackydeveloper.designersaree.ui.TinderStackLayout;
+
+
 public class SwipeViewActivity extends AppCompatActivity {
 
     private static final int STACK_SIZE = 4;
     // endregion
-
+    boolean doubleBackToExitPressedOnce = false;
     // region Views
     private TinderStackLayout tinderStackLayout;
     // endregion
     private ArrayList<Image> images;
-
+    private GalleryAdapter mAdapter;
     // region Member Variables
     private String[] displayNames, userNames, avatarUrls;
     private int index = 0;
@@ -47,17 +45,19 @@ public class SwipeViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        displayNames = getResources().getStringArray(R.array.display_names);
-        userNames = getResources().getStringArray(R.array.usernames);
-        avatarUrls = getResources().getStringArray(R.array.avatar_urls);
+        images = new ArrayList<Image>();
+        fetchImages();
+//
+//        displayNames = getResources().getStringArray(R.array.display_names);
+//        userNames = getResources().getStringArray(R.array.usernames);
+//        avatarUrls = getResources().getStringArray(R.array.avatar_urls);
 
         tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
 
         TinderCardView tc;
         for(int i=index; index<i+STACK_SIZE; index++){
             tc = new TinderCardView(this);
-            tc.bind(getUser(index));
+            tc.bind(getImage(index));
             tinderStackLayout.addCard(tc);
         }
 
@@ -66,7 +66,7 @@ public class SwipeViewActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
-
+                        Toast.makeText(getApplicationContext(),"That's all folks." ,Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -80,9 +80,12 @@ public class SwipeViewActivity extends AppCompatActivity {
                             TinderCardView tc;
                             for(int i=index; index<i+(STACK_SIZE-1); index++){
                                 tc = new TinderCardView(SwipeViewActivity.this);
-                                tc.bind(getUser(index));
+                                tc.bind(getImage(index));
                                 tinderStackLayout.addCard(tc);
                             }
+                        }
+                        else if( integer == 0){
+                            onCompleted();
                         }
                     }
                 });
@@ -90,12 +93,18 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     // region Helper Methods
     private User getUser(int index){
-        User user = new User();
+        User user = new User()  ;
         user.setAvatarUrl(avatarUrls[index]);
         user.setDisplayName(displayNames[index]);
         user.setUsername(userNames[index]);
         return user;
     }
+
+    private Image getImage(int index){
+        Image img = images.get(index) ;
+        return img ;
+    }
+
     // endregion
 
     public String loadJSONFromAsset() {
@@ -118,7 +127,6 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     private void fetchImages() {
         int  ij = 0 ;
-        images.clear();
 
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset());
@@ -133,12 +141,11 @@ public class SwipeViewActivity extends AppCompatActivity {
                 image.setMedium(url.getString("medium"));
                 image.setLarge(url.getString("large"));
                 images.add(image);
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
 
 
 

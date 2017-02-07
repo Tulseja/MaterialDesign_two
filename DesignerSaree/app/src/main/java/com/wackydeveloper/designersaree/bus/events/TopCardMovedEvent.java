@@ -1,4 +1,4 @@
-package com.etiennelawlor.tinderstack.bus.events;
+package com.wackydeveloper.designersaree.bus.events;
 
 public class TopCardMovedEvent {
 
