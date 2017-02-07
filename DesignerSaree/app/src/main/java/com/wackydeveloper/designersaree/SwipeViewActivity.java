@@ -1,79 +1,164 @@
 package com.wackydeveloper.designersaree;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
+import com.etiennelawlor.tinderstack.models.User;
+import com.etiennelawlor.tinderstack.ui.TinderCardView;
+import com.etiennelawlor.tinderstack.ui.TinderStackLayout;
 import com.wackydeveloper.designersaree.Adapter.SwipeDeckAdapter;
+import com.wackydeveloper.designersaree.model.Image;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class SwipeViewActivity extends AppCompatActivity {
 
-    SwipeDeck cardStack ;
-    ArrayList<String> testData ;
-    SwipeDeckAdapter adapter ;
+    private static final int STACK_SIZE = 4;
+    // endregion
+
+    // region Views
+    private TinderStackLayout tinderStackLayout;
+    // endregion
+    private ArrayList<Image> images;
+
+    // region Member Variables
+    private String[] displayNames, userNames, avatarUrls;
+    private int index = 0;
+    // endregion
+
+    // region Listeners
+    // endregion
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.swipe_deck);
-        cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
+        setContentView(R.layout.activity_main);
 
+        displayNames = getResources().getStringArray(R.array.display_names);
+        userNames = getResources().getStringArray(R.array.usernames);
+        avatarUrls = getResources().getStringArray(R.array.avatar_urls);
 
-        testData = new ArrayList<>();
-        testData.add("0");
-        testData.add("1");
-        testData.add("2");
-        testData.add("3");
-        testData.add("4");
+        tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
 
-        adapter = new SwipeDeckAdapter(testData, this);
-        if(cardStack != null){
-            cardStack.setAdapter(adapter);
+        TinderCardView tc;
+        for(int i=index; index<i+STACK_SIZE; index++){
+            tc = new TinderCardView(this);
+            tc.bind(getUser(index));
+            tinderStackLayout.addCard(tc);
         }
-        cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
-            @Override
-            public void cardSwipedLeft(long stableId) {
-                Log.i("MainActivity", "card was swiped left, position in adapter: " + stableId);
+
+        tinderStackLayout.getPublishSubject()
+                .observeOn(AndroidSchedulers.mainThread()) // UI Thread
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        if(integer == 1){
+                            TinderCardView tc;
+                            for(int i=index; index<i+(STACK_SIZE-1); index++){
+                                tc = new TinderCardView(SwipeViewActivity.this);
+                                tc.bind(getUser(index));
+                                tinderStackLayout.addCard(tc);
+                            }
+                        }
+                    }
+                });
+    }
+
+    // region Helper Methods
+    private User getUser(int index){
+        User user = new User();
+        user.setAvatarUrl(avatarUrls[index]);
+        user.setDisplayName(displayNames[index]);
+        user.setUsername(userNames[index]);
+        return user;
+    }
+    // endregion
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getApplicationContext().getAssets().open("photos_copy.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+
+
+    private void fetchImages() {
+        int  ij = 0 ;
+        images.clear();
+
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONArray m_jArry = obj.getJSONArray("Urls");
+
+            for (int i = 0; i < m_jArry.length(); i++) {
+                Image image = new Image();
+                JSONObject object = m_jArry.getJSONObject(i);
+                image.setName(object.getString("name"));
+                JSONObject url = object.getJSONObject("url");
+                image.setSmall(url.getString("small"));
+                image.setMedium(url.getString("medium"));
+                image.setLarge(url.getString("large"));
+                images.add(image);
+
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mAdapter.notifyDataSetChanged();
+
+
+
+    }
+    @Override
+    public void onBackPressed() {
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
 
             @Override
-            public void cardSwipedRight(long stableId) {
-                Log.i("MainActivity", "card was swiped right, position in adapter: " + stableId);
+            public void run() {
+                doubleBackToExitPressedOnce=false;
             }
-        });
-
-
-        cardStack.setLeftImage(R.id.left_image);
-        cardStack.setRightImage(R.id.right_image);
-
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardStack.swipeTopCardLeft(180);
-            }
-        });
-        Button btn2 = (Button) findViewById(R.id.button2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardStack.swipeTopCardRight(180);
-            }
-        });
-
-        Button btn3 = (Button) findViewById(R.id.button3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testData.add("a sample string.");
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
+        }, 5000);
     }
 }
