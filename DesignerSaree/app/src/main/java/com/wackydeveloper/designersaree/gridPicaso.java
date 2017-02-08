@@ -129,41 +129,7 @@ public class gridPicaso extends AppCompatActivity {
 
     private void fetchImages() {
         int  ij = 0 ;
-
-//        JsonArrayRequest req = new JsonArrayRequest(endpoint, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                Log.d(TAG, response.toString());
-//                pDialog.hide();
-//
-                images.clear();
-//                for (int i = 0; i < response.length(); i++) {
-//                    try {
-//                        JSONObject object = response.getJSONObject(i);
-//                        Image image = new Image();
-//                        image.setName(object.getString("name"));
-//                        JSONObject url = object.getJSONObject("url");
-//                        image.setSmall(url.getString("small"));
-//                        image.setMedium(url.getString("medium"));
-//                        image.setLarge(url.getString("large"));
-//
-//                        images.add(image);
-//
-//                    } catch (JSONException e) {
-//                        Log.e(TAG, "Json parsing error: " + e.getMessage());
-//                    }
-//                }
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e(TAG, "Error: " + error.getMessage());
-//                pDialog.hide();
-//            }
-//        });
-//        if(req != null)
-//        AppController.getInstance().addToRequestQueue(req);
+        images.clear();
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset());
             JSONArray m_jArry = obj.getJSONArray("Urls");

@@ -33,6 +33,7 @@ public class SwipeViewActivity extends AppCompatActivity {
     private TinderStackLayout tinderStackLayout;
     // endregion
     private ArrayList<Image> images;
+
     private GalleryAdapter mAdapter;
     // region Member Variables
     private String[] displayNames, userNames, avatarUrls;
@@ -84,9 +85,7 @@ public class SwipeViewActivity extends AppCompatActivity {
                                 tinderStackLayout.addCard(tc);
                             }
                         }
-                        else if( integer == 0){
-                            onCompleted();
-                        }
+
                     }
                 });
     }
@@ -104,6 +103,7 @@ public class SwipeViewActivity extends AppCompatActivity {
         Image img = images.get(index) ;
         return img ;
     }
+
 
     // endregion
 
@@ -167,5 +167,17 @@ public class SwipeViewActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 5000);
+    }
+
+    public ArrayList<Image> getImagesObject(){
+         if(images == null){
+             return null ;
+         } else {
+             return images ;
+         }
+
+    }
+    public int getIndex(){
+        return  index ;
     }
 }

@@ -1,9 +1,13 @@
 package com.wackydeveloper.designersaree.ui;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment ;
 
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,8 +20,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+import com.wackydeveloper.designersaree.Helper.SlideshowDialogFragment;
+import com.wackydeveloper.designersaree.ImageLargeViewActivity;
 import com.wackydeveloper.designersaree.R;
+import android.support.v4.app.FragmentManager;
 
+
+
+import com.wackydeveloper.designersaree.SwipeViewActivity;
 import com.wackydeveloper.designersaree.bus.RxBus;
 import com.wackydeveloper.designersaree.bus.events.TopCardMovedEvent;
 import com.wackydeveloper.designersaree.model.Image;
@@ -40,6 +50,7 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
     private TextView usernameTextView;
     private TextView likeTextView;
     private TextView nopeTextView;
+    private Context  mContext ;
     // endregion
 
     // region Member Variables
@@ -60,16 +71,19 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
     // region Constructors
     public TinderCardView(Context context) {
         super(context);
+        this.mContext = context ;
         init(context, null);
     }
 
     public TinderCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.mContext = context ;
         init(context, attrs);
     }
 
     public TinderCardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.mContext = context ;
         init(context, attrs);
     }
     // endregion
@@ -99,7 +113,25 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
                         RxBus.getInstance().send(new TopCardMovedEvent(screenWidth));
                         dismissCard(view, (screenWidth * 2));
                     } else if(distance == 0){
-                        Log.v("Nikhil" ," ImageView Touch Detected !! " ) ;
+                        Log.v("Nikhil" ,"ImageView Touch Detected !! " ) ;
+                        Bundle bundle = new Bundle();
+                            Activity act = (SwipeViewActivity) mContext ;
+
+                        bundle.putSerializable("images",((SwipeViewActivity) mContext).getImagesObject());
+                        bundle.putInt("position", ((SwipeViewActivity) mContext).getIndex());
+
+                        Intent intent = new Intent();
+                        intent.setClass(act, ImageLargeViewActivity.class);
+//                        intent.putExtra("index", index);
+                        mContext.startActivity(intent);
+
+
+//                        android.support.v4.app.FragmentTransaction ft = act.get                               //getSupportFragmentManager().beginTransaction();
+//                        SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+//                        newFragment.setArguments(bundle);
+//                        newFragment.show(ft, "slideshow");
+
+
                     } else {
                         RxBus.getInstance().send(new TopCardMovedEvent(0));
                         resetCard(view);
