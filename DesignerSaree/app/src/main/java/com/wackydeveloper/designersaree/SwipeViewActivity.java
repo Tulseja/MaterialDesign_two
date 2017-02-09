@@ -26,7 +26,7 @@ import com.wackydeveloper.designersaree.ui.TinderStackLayout;
 
 public class SwipeViewActivity extends AppCompatActivity {
 
-    private static final int STACK_SIZE = 4;
+    public static final int STACK_SIZE = 4;
     // endregion
     boolean doubleBackToExitPressedOnce = false;
     // region Views
@@ -178,6 +178,6 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     }
     public int getIndex(){
-        return  index ;
+        return  tinderStackLayout.getChildCount() ;
     }
 }

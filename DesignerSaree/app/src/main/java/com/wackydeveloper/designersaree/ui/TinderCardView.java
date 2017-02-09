@@ -118,11 +118,13 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
                             Activity act = (SwipeViewActivity) mContext ;
 
                         bundle.putSerializable("images",((SwipeViewActivity) mContext).getImagesObject());
-                        bundle.putInt("position", ((SwipeViewActivity) mContext).getIndex());
+                        bundle.putInt("position", ((SwipeViewActivity) mContext).getIndex()-4);
+ //STACK_SIZE  =4
+                        Image img =  ((SwipeViewActivity) mContext).getImagesObject().get(((SwipeViewActivity) mContext).getIndex()-4) ;
+                         String url = img.getLarge() ;
 
-                        Intent intent = new Intent();
-                        intent.setClass(act, ImageLargeViewActivity.class);
-//                        intent.putExtra("index", index);
+                        Intent intent = new Intent(act,ImageLargeViewActivity.class);
+                        intent.putExtra("customBundle" , bundle ) ;
                         mContext.startActivity(intent);
 
 

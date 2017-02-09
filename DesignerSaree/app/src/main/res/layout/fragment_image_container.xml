@@ -4,17 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/detailsText"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Halo"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dip" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Halo"
-        />
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/image_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter" />
+
 
 </RelativeLayout>

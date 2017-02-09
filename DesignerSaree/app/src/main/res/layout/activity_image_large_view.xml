@@ -10,15 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.wackydeveloper.designersaree.ImageLargeViewActivity">
 
-    <fragment
-        class="com.wackydeveloper.designersaree.ImageFragments.ImageContainerFragment"
-        android:name="com.wackydeveloper.designersaree.ImageFragments.ImageContainerFragment"
-        android:id="@+id/mynewFragment1"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_image_container">
-    </fragment>
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/image_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+         />
 
 
 

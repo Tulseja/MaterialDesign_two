@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.wackydeveloper.designersaree.R;
+import com.wackydeveloper.designersaree.model.Image;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +34,10 @@ public class ImageContainerFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ArrayList<Image> images;
+    private int selectedPosition ;
+    private SubsamplingScaleImageView iv ;
+    private Image img  ;
 
     public ImageContainerFragment() {
         // Required empty public constructor
@@ -66,8 +74,7 @@ public class ImageContainerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Log.v("Nikhil","Rendering fragment") ;
+
         return inflater.inflate(R.layout.fragment_image_container, container, false);
     }
 
