@@ -109,19 +109,21 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
                     if(isCardBeyondLeftBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(-(screenWidth)));
                         dismissCard(view, -(screenWidth * 2));
+                        SwipeViewActivity.topCardIndex++ ;
                     } else if(isCardBeyondRightBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(screenWidth));
                         dismissCard(view, (screenWidth * 2));
+                        SwipeViewActivity.topCardIndex++ ;
                     } else if(distance == 0){
                         Log.v("Nikhil" ,"ImageView Touch Detected !! " ) ;
                         Bundle bundle = new Bundle();
                             Activity act = (SwipeViewActivity) mContext ;
 
                         bundle.putSerializable("images",((SwipeViewActivity) mContext).getImagesObject());
-                        bundle.putInt("position", ((SwipeViewActivity) mContext).getIndex()-4);
+                        bundle.putInt("position", (SwipeViewActivity.topCardIndex));
  //STACK_SIZE  =4
-                        Image img =  ((SwipeViewActivity) mContext).getImagesObject().get(((SwipeViewActivity) mContext).getIndex()-4) ;
-                         String url = img.getLarge() ;
+//                        Image img =  ((SwipeViewActivity) mContext).getImagesObject().get(((SwipeViewActivity) mContext).getIndex()-4) ;
+//                         String url = img.getLarge() ;
 
                         Intent intent = new Intent(act,ImageLargeViewActivity.class);
                         intent.putExtra("customBundle" , bundle ) ;

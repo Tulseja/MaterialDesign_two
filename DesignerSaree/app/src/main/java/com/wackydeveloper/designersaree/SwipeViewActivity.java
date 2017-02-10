@@ -27,6 +27,8 @@ import com.wackydeveloper.designersaree.ui.TinderStackLayout;
 public class SwipeViewActivity extends AppCompatActivity {
 
     public static final int STACK_SIZE = 4;
+
+    public static int topCardIndex = 0 ;
     // endregion
     boolean doubleBackToExitPressedOnce = false;
     // region Views
@@ -42,6 +44,8 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     // region Listeners
     // endregion
+//    @Override
+//    protected
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,4 +184,8 @@ public class SwipeViewActivity extends AppCompatActivity {
     public int getIndex(){
         return  tinderStackLayout.getChildCount() ;
     }
+
+public static int getTopCardIndex() {
+        return topCardIndex ;
+        }
 }
