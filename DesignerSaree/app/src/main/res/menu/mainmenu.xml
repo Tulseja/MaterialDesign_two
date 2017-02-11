@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item
+        android:id="@+id/action_fav"
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_favorite_black_24dp"
+
+        android:title="Favourites" >
+    </item>
+    <item
+        android:id="@+id/action_settings"
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_settings_black_24dp"
+        android:title="Settings">
+    </item>
+
+</menu>

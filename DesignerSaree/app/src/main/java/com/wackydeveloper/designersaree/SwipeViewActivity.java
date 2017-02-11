@@ -1,8 +1,13 @@
 package com.wackydeveloper.designersaree;
 
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.wackydeveloper.designersaree.Adapter.GalleryAdapter;
@@ -28,7 +33,7 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     public static final int STACK_SIZE = 4;
 
-    public static int topCardIndex = 0 ;
+    public static int topCardIndex  ;
     // endregion
     boolean doubleBackToExitPressedOnce = false;
     // region Views
@@ -44,18 +49,23 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     // region Listeners
     // endregion
-//    @Override
-//    protected
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        topCardIndex = 0 ;
         images = new ArrayList<Image>();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setSubtitle("Subtitile");
         fetchImages();
-//
-//        displayNames = getResources().getStringArray(R.array.display_names);
-//        userNames = getResources().getStringArray(R.array.usernames);
-//        avatarUrls = getResources().getStringArray(R.array.avatar_urls);
+
 
         tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
 
@@ -188,4 +198,23 @@ public class SwipeViewActivity extends AppCompatActivity {
 public static int getTopCardIndex() {
         return topCardIndex ;
         }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_fav:
+                Toast.makeText(this, "Favourite Selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
 }

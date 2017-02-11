@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,6 +29,11 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
     private int selectedPosition ;
     private SubsamplingScaleImageView iv ;
     private Image img  ;
+    private Target target ;
+    Image currentImage ;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +45,10 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
         selectedPosition = obj.getInt("position");
         iv = (SubsamplingScaleImageView)findViewById(R.id.image_preview) ;
 
-        final Picasso picasso = Picasso.with(getApplicationContext());
-        Image image = images.get(selectedPosition);
+//        final Picasso picasso = Picasso.with(getApplicationContext());
+        currentImage = images.get(selectedPosition);
 
-        final Target target  = new Target() {
+        target  = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 // loading of the bitmap was a success
@@ -64,7 +70,7 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
         };
 
         Picasso.with(getApplicationContext())
-                .load(image.getLarge())
+                .load(currentImage.getLarge())
                 .tag("Large")
                 .placeholder(R.drawable.animation)
                 .into(target ) ;

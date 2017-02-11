@@ -77,7 +77,7 @@ public class TinderStackLayout extends FrameLayout {
         setClipChildren(false);
 
         screenWidth = DisplayUtility.getScreenWidth(getContext());
-        yMultiplier = DisplayUtility.dp2px(getContext(), 8);
+        yMultiplier = DisplayUtility.dp2px(getContext(), 18);
 
         compositeSubscription = new CompositeSubscription();
 
