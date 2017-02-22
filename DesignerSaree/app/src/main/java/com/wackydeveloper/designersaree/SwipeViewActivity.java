@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -75,6 +76,8 @@ public class SwipeViewActivity extends AppCompatActivity {
             tc.bind(getImage(index));
             tinderStackLayout.addCard(tc);
         }
+
+
 
         tinderStackLayout.getPublishSubject()
                 .observeOn(AndroidSchedulers.mainThread()) // UI Thread
@@ -217,4 +220,14 @@ public static int getTopCardIndex() {
 
         return true;
     }
+//    public int getActionBarHeight(){
+//        TypedValue tv = new TypedValue();
+//        int actionBarHeight  = 0  ;
+//        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+//        {
+//            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+//        }
+//
+//        return actionBarHeight ;
+//    }
 }

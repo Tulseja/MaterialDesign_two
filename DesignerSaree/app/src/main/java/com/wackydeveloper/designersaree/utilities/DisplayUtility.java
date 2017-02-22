@@ -33,5 +33,10 @@ public class DisplayUtility {
         ((Activity) context).getWindowManager().getDefaultDisplay().getSize(size);
         return size.x;
     }
+    public static int getScreenHeight(Context context) {
+        Point size = new Point();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getSize(size);
+        return size.y;
+    }
     // endregion
 }

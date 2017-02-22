@@ -2,11 +2,14 @@ package com.wackydeveloper.designersaree.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 
+import com.wackydeveloper.designersaree.SwipeViewActivity;
 import com.wackydeveloper.designersaree.bus.RxBus;
 import com.wackydeveloper.designersaree.bus.events.TopCardMovedEvent;
 import com.wackydeveloper.designersaree.utilities.DisplayUtility;
@@ -77,7 +80,7 @@ public class TinderStackLayout extends FrameLayout {
         setClipChildren(false);
 
         screenWidth = DisplayUtility.getScreenWidth(getContext());
-        yMultiplier = DisplayUtility.dp2px(getContext(), 18);
+        yMultiplier = DisplayUtility.dp2px(getContext(), 7);
 
         compositeSubscription = new CompositeSubscription();
 
@@ -132,9 +135,14 @@ public class TinderStackLayout extends FrameLayout {
 
     public void addCard(TinderCardView tc){
         ViewGroup.LayoutParams layoutParams;
-        layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         int childCount = getChildCount();
+
+//        layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        int width = DisplayUtility.getScreenWidth(getContext());
+        int height = DisplayUtility.getScreenHeight(getContext());
+        int param = height +getActionBarHeight() ;
+        layoutParams = new ViewGroup.LayoutParams(width, param+70);
         addView(tc, 0, layoutParams);
 
         float scaleValue = 1 - (childCount/50.0f);
@@ -147,4 +155,14 @@ public class TinderStackLayout extends FrameLayout {
             .setDuration(DURATION);
     }
     // endregion
+    public int getActionBarHeight(){
+        TypedValue tv = new TypedValue();
+        int actionBarHeight  = 0  ;
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+
+        return actionBarHeight ;
+    }
 }
