@@ -5,12 +5,15 @@
     style="@style/CardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="24dp"
-    android:layout_gravity="top">
+    android:layout_gravity="top"
+    android:layout_marginTop="10dp"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -20,7 +23,7 @@
                 android:id="@+id/iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="88dp"
+                android:layout_marginBottom="98dp"
                 android:scaleType="centerCrop"
                 app:heightRatio="1.0"
                 android:background="@color/grey_300"/>

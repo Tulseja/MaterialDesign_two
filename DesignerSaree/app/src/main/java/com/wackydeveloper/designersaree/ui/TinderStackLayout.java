@@ -142,7 +142,7 @@ public class TinderStackLayout extends FrameLayout {
         int width = DisplayUtility.getScreenWidth(getContext());
         int height = DisplayUtility.getScreenHeight(getContext());
         int param = height +getActionBarHeight() ;
-        layoutParams = new ViewGroup.LayoutParams(width, param+70);
+        layoutParams = new ViewGroup.LayoutParams(width, height);
         addView(tc, 0, layoutParams);
 
         float scaleValue = 1 - (childCount/50.0f);
