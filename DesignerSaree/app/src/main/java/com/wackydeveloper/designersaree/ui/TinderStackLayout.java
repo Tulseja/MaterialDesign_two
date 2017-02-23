@@ -80,7 +80,7 @@ public class TinderStackLayout extends FrameLayout {
         setClipChildren(false);
 
         screenWidth = DisplayUtility.getScreenWidth(getContext());
-        yMultiplier = DisplayUtility.dp2px(getContext(), 7);
+        yMultiplier = DisplayUtility.dp2px(getContext(), 4);
 
         compositeSubscription = new CompositeSubscription();
 
@@ -142,7 +142,7 @@ public class TinderStackLayout extends FrameLayout {
         int width = DisplayUtility.getScreenWidth(getContext());
         int height = DisplayUtility.getScreenHeight(getContext());
         int param = height +getActionBarHeight() ;
-        layoutParams = new ViewGroup.LayoutParams(width, height);
+        layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addView(tc, 0, layoutParams);
 
         float scaleValue = 1 - (childCount/50.0f);

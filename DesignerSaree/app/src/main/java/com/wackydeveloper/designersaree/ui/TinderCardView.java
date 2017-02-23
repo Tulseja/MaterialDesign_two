@@ -191,7 +191,7 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
             screenWidth = DisplayUtility.getScreenWidth(context);
             leftBoundary =  screenWidth * (1.0f/6.0f); // Left 1/6 of screen
             rightBoundary = screenWidth * (5.0f/6.0f); // Right 1/6 of screen
-            padding = DisplayUtility.dp2px(context, 7);
+            padding = DisplayUtility.dp2px(context, 5);
 
             setOnTouchListener(this);
 //            imageView.setOnClickListener(new View.OnClickListener() {

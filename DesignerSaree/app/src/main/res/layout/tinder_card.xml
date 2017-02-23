@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="3dp"
     >
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         >
 
         <FrameLayout
@@ -23,14 +22,14 @@
                 android:id="@+id/iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="98dp"
+                android:layout_marginBottom="70dp"
                 android:scaleType="centerCrop"
-                app:heightRatio="1.0"
+                app:heightRatio="1.12"
                 android:background="@color/grey_300"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="88dp"
+                android:layout_height="78dp"
                 android:orientation="vertical"
                 android:gravity="center_vertical"
                 android:padding="16dp"
@@ -43,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primary_text"
                     android:fontFamily="sans-serif"
-                    android:textSize="22sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/username_tv"
@@ -51,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/secondary_text"
                     android:fontFamily="sans-serif"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
             </LinearLayout>
 
