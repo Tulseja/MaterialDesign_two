@@ -78,12 +78,9 @@ public class TinderStackLayout extends FrameLayout {
     // region Helper Methods
     private void init(){
         setClipChildren(false);
-
         screenWidth = DisplayUtility.getScreenWidth(getContext());
-        yMultiplier = DisplayUtility.dp2px(getContext(), 4);
-
+        yMultiplier = DisplayUtility.dp2px(getContext(), 5);
         compositeSubscription = new CompositeSubscription();
-
         setUpRxBusSubscription();
     }
 

@@ -2,35 +2,37 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/grey_200"
     >
 
-    <LinearLayout
+        <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:background="@color/grey_200">
-
-
+        android:background="@color/grey_200"
+        >
         <com.wackydeveloper.designersaree.ui.TinderStackLayout
             android:id="@+id/tsl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="2dp"
-            android:paddingBottom="32dp"
-        />
-        <Button
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="30dp"
+             />
+      <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:id="@+id/ButtonTest"
             android:text="Like"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentBottom="true"
+          />
 
-            />
-    </LinearLayout>
+        </RelativeLayout>
+
 
 </LinearLayout>
 
