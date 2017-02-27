@@ -3,6 +3,7 @@ package com.wackydeveloper.designersaree;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -18,13 +21,16 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.wackydeveloper.designersaree.ImageFragments.ImageContainerFragment;
 import com.wackydeveloper.designersaree.model.Image;
+import com.wackydeveloper.designersaree.utilities.DisplayUtility;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
 
-public class ImageLargeViewActivity extends Activity implements ImageContainerFragment.OnFragmentInteractionListener {
 
+public class ImageLargeViewActivity extends Activity  {
+
+
+    //implements ImageContainerFragment.OnFragmentInteractionListener
     private ArrayList<Image> images;
     private int selectedPosition ;
     private SubsamplingScaleImageView iv ;
@@ -32,11 +38,15 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
     private Target target ;
     Image currentImage ;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
         setContentView(R.layout.activity_image_large_view);
         Bundle obj = getIntent().getBundleExtra("customBundle") ;
 
@@ -44,6 +54,8 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
         images = (ArrayList<Image>) obj.getSerializable("images");
         selectedPosition = obj.getInt("position");
         iv = (SubsamplingScaleImageView)findViewById(R.id.image_preview) ;
+
+
 
 //        final Picasso picasso = Picasso.with(getApplicationContext());
         currentImage = images.get(selectedPosition);
@@ -69,9 +81,14 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
             }
         };
 
+        int height = DisplayUtility.getScreenHeight(this) ;
+        int width = DisplayUtility.getScreenWidth(this) ;
+
         Picasso.with(getApplicationContext())
                 .load(currentImage.getLarge())
                 .tag("Large")
+                .resize(width,height)
+                .centerInside()
                 .placeholder(R.drawable.animation)
                 .into(target ) ;
 
@@ -88,9 +105,9 @@ public class ImageLargeViewActivity extends Activity implements ImageContainerFr
 //    }
 
 //    ImageLargeViewActivity txt = (ImageLargeViewActivity)getFragmentManager().findFragmentById(R.id.);
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
+//    @Override
+//    public void onFragmentInteraction(Uri uri) {
+//
+//    }
 
 }
