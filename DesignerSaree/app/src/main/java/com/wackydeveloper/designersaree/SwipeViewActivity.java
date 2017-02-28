@@ -36,6 +36,8 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     public static final int STACK_SIZE = 4;
 
+    public static Boolean isLikeAlreadyPressed = false ;
+
     public static int topCardIndex  ;
     // endregion
     boolean doubleBackToExitPressedOnce = false;
@@ -47,6 +49,8 @@ public class SwipeViewActivity extends AppCompatActivity {
     private ArrayList<String> likedImages ;
 
     private Button likeButton ;
+
+    private Menu actionMenu ;
 
     private GalleryAdapter mAdapter;
     // region Member Variables
@@ -60,9 +64,11 @@ public class SwipeViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        actionMenu = menu;
         inflater.inflate(R.menu.mainmenu, menu);
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,11 +136,34 @@ public class SwipeViewActivity extends AppCompatActivity {
         return img ;
     }
 
-    public void LikeImage(View v) {
-        likedImages.add(images.get(getTopCardIndex()).getSmall()) ;
-    }
+    public void LikeButtonPressed(View v) {
 
+        Log.e("Nikhil" , "Like Pressed . ") ;
+        if(!isLikeAlreadyPressed) {
+            likedImages.add(images.get(getTopCardIndex()).getSmall());
+            isLikeAlreadyPressed= true ;
+            Log.e("Nikhil","Adding it to List.") ;
+            setActionIcon();
+        }
+        else {
+            isLikeAlreadyPressed = true;
+            Log.e("Nikhil" ,"Not Adding it to List.") ;
+        }
+    }
+    private void setActionIcon()
+    {
+        MenuItem item = actionMenu.findItem(R.id.action_fav);
+
+        if(actionMenu!= null)
+        {
+
+                item.setIcon(R.mipmap.ic_favorite_black_24dp);
+            item.setVisible(true);
+        }
+
+    }
     // endregion
+
 
     public String loadJSONFromAsset() {
         String json = null;
@@ -244,3 +273,4 @@ public static int getTopCardIndex() {
 //        return actionBarHeight ;
 //    }
 }
+

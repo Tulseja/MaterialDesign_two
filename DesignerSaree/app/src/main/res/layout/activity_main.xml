@@ -27,7 +27,7 @@
             android:textColor="#FFFFFF"
             android:id="@+id/like_button"
             android:text="Like"
-          android:onClick="LikeImage"
+          android:onClick="LikeButtonPressed"
           android:layout_alignParentRight="true"
           android:layout_alignParentBottom="true"
           />

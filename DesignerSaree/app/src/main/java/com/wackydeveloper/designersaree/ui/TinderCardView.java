@@ -109,11 +109,17 @@ public class TinderCardView extends FrameLayout implements View.OnTouchListener 
                     if(isCardBeyondLeftBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(-(screenWidth)));
                         dismissCard(view, -(screenWidth * 2));
+                        //Increase Top card Index for easy tracking
                         SwipeViewActivity.topCardIndex++ ;
+                        //Change status of like button for every swipe.
+                        SwipeViewActivity.isLikeAlreadyPressed = false ;
                     } else if(isCardBeyondRightBoundary(view)){
                         RxBus.getInstance().send(new TopCardMovedEvent(screenWidth));
                         dismissCard(view, (screenWidth * 2));
                         SwipeViewActivity.topCardIndex++ ;
+                        //Change status of like button for every swipe.
+                        SwipeViewActivity.isLikeAlreadyPressed = false ;
+
                     } else if(distance == 0){
                         Log.v("Nikhil" ,"ImageView Touch Detected !! " ) ;
                         Bundle bundle = new Bundle();
