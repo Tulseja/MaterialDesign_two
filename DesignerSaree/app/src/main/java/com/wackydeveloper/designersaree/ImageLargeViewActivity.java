@@ -92,9 +92,6 @@ public class ImageLargeViewActivity extends Activity  {
                 .placeholder(R.drawable.animation)
                 .into(target ) ;
 
-
-
-
     }
 //    private void displayMetaInfo(int position) {
 //        lblCount.setText((position + 1) + " of " + images.size());

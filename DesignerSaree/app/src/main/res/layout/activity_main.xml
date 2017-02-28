@@ -25,8 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:id="@+id/ButtonTest"
+            android:id="@+id/like_button"
             android:text="Like"
+          android:onClick="LikeImage"
           android:layout_alignParentRight="true"
           android:layout_alignParentBottom="true"
           />

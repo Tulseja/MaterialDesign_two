@@ -9,6 +9,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.wackydeveloper.designersaree.Adapter.GalleryAdapter;
@@ -42,6 +44,10 @@ public class SwipeViewActivity extends AppCompatActivity {
     // endregion
     private ArrayList<Image> images;
 
+    private ArrayList<String> likedImages ;
+
+    private Button likeButton ;
+
     private GalleryAdapter mAdapter;
     // region Member Variables
     private String[] displayNames, userNames, avatarUrls;
@@ -63,12 +69,15 @@ public class SwipeViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         topCardIndex = 0 ;
         images = new ArrayList<Image>();
+        likedImages = new ArrayList<String>() ;
         ActionBar actionBar = getSupportActionBar();
         actionBar.setSubtitle("Subtitile");
         fetchImages();
 
 
         tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
+        likeButton = (Button)findViewById(R.id.like_button);
+
 
         TinderCardView tc;
         for(int i=index; index<i+STACK_SIZE; index++){
@@ -121,6 +130,9 @@ public class SwipeViewActivity extends AppCompatActivity {
         return img ;
     }
 
+    public void LikeImage(View v) {
+        likedImages.add(images.get(getTopCardIndex()).getSmall()) ;
+    }
 
     // endregion
 
@@ -220,6 +232,7 @@ public static int getTopCardIndex() {
 
         return true;
     }
+
 //    public int getActionBarHeight(){
 //        TypedValue tv = new TypedValue();
 //        int actionBarHeight  = 0  ;
