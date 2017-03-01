@@ -153,18 +153,13 @@ public class SwipeViewActivity extends AppCompatActivity {
     private void setActionIcon()
     {
         MenuItem item = actionMenu.findItem(R.id.action_fav);
-
         if(actionMenu!= null)
         {
-
-                item.setIcon(R.mipmap.ic_favorite_black_24dp);
+            item.setIcon(R.mipmap.ic_favorite_black_24dp);
             item.setVisible(true);
         }
-
     }
     // endregion
-
-
     public String loadJSONFromAsset() {
         String json = null;
         try {

@@ -65,7 +65,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
-        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
+//        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
 //        lblDate = (TextView) v.findViewById(R.id.date);
 
         images = (ArrayList<Image>) getArguments().getSerializable("images");

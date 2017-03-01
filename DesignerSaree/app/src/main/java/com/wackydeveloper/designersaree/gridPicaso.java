@@ -75,10 +75,10 @@ public class gridPicaso extends AppCompatActivity {
 
             }
  });
-        pDialog = new ProgressDialog(getApplicationContext());
+//        pDialog = new ProgressDialog(getApplicationContext());
         images = new ArrayList<>();
         mAdapter = new GalleryAdapter(this, images);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
