@@ -31,27 +31,25 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.wackydeveloper.designersaree.R;
 import com.wackydeveloper.designersaree.model.Image;
+import com.wackydeveloper.designersaree.utilities.DisplayUtility;
 
 import static android.R.attr.id;
 
 public class SlideshowDialogFragment extends DialogFragment {
 
     private String TAG = SlideshowDialogFragment.class.getSimpleName();
-    private ArrayList<Image> images;
+    private ArrayList<String> images;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
     private int selectedPosition = 0;
 //     PhotoViewAttacher mAttacher;
 
-    private ProgressBar mProgress;
+    //private ProgressBar mProgress;
     private int mProgressStatus = 0;
 
 
     private Handler mHandler = new Handler();
-
-
-
 
     public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
@@ -68,7 +66,7 @@ public class SlideshowDialogFragment extends DialogFragment {
 //        mProgress = (ProgressBar)v.findViewById(R.id.progressBar) ;
 //        lblDate = (TextView) v.findViewById(R.id.date);
 
-        images = (ArrayList<Image>) getArguments().getSerializable("images");
+        images = (ArrayList<String>) getArguments().getSerializable("images");
         selectedPosition = getArguments().getInt("position");
 
         Log.e(TAG, "position: " + selectedPosition);
@@ -109,8 +107,8 @@ public class SlideshowDialogFragment extends DialogFragment {
     private void displayMetaInfo(int position) {
         lblCount.setText((position + 1) + " of " + images.size());
 
-        Image image = images.get(position);
-        lblTitle.setText(image.getName());
+        String image = images.get(position);
+//        lblTitle.setText(image.getName());
 //        lblDate.setText(image.getTimestamp());
     }
 
@@ -136,14 +134,14 @@ public class SlideshowDialogFragment extends DialogFragment {
             final View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false) ;
             final SubsamplingScaleImageView imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_preview);
 //            mProgress = (ProgressBar)viewin.findViewById(R.id.progressBar);
-            mProgress.setVisibility(View.VISIBLE);
-            mProgress.setProgress(50);
-            
+//            mProgress.setVisibility(View.VISIBLE);
+//            mProgress.setProgress(50);
+//
 
 
             final Picasso picasso = Picasso.with(getContext());
             picasso.pauseTag("Lazy Load");
-            Image image = images.get(position);
+            String image = images.get(position);
 
             final Target target  = new Target() {
                 @Override
@@ -151,8 +149,8 @@ public class SlideshowDialogFragment extends DialogFragment {
                     // loading of the bitmap was a success
                     // TODO do some action with the bitmap
                     imageView.setImage(ImageSource.bitmap(bitmap));
-                    mProgress.setProgress(99);
-                    mProgress.setVisibility(View.GONE);
+//                    mProgress.setProgress(99);
+//                    mProgress.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -167,10 +165,14 @@ public class SlideshowDialogFragment extends DialogFragment {
 
                 }
             };
+            int height = DisplayUtility.getScreenHeight(getContext()) ;
+            int width = DisplayUtility.getScreenWidth(getContext()) ;
 
             Picasso.with(getContext())
-                    .load(image.getLarge())
+                    .load(image)
                     .tag("Large")
+                    .centerInside()
+                    .resize(width,height)
                     .placeholder(R.drawable.animation)
                     .into(target ) ;
             imageView.setTag(target);

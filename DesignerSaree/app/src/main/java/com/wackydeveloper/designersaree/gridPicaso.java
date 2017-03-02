@@ -41,8 +41,8 @@ public class gridPicaso extends AppCompatActivity {
 
     private String TAG = gridPicaso.class.getSimpleName();
     private static final String endpoint = "https://drive.google.com/uc?export=download&id=0Bwg8BpmNgTvUQnl4WEpSRkRCXzg";
-    private ArrayList<Image> images;
-    private ProgressDialog pDialog;
+    private ArrayList<String> images;
+    //private ProgressDialog pDialog;
     private GalleryAdapter mAdapter;
     private RecyclerView recyclerView;
     boolean doubleBackToExitPressedOnce = false;
@@ -53,7 +53,7 @@ public class gridPicaso extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_picaso);
-
+        images = (ArrayList<String>) getIntent().getSerializableExtra("FAV_LIST");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
@@ -76,9 +76,8 @@ public class gridPicaso extends AppCompatActivity {
             }
  });
 //        pDialog = new ProgressDialog(getApplicationContext());
-        images = new ArrayList<>();
         mAdapter = new GalleryAdapter(this, images);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -104,7 +103,7 @@ public class gridPicaso extends AppCompatActivity {
         }));
 
 
-        fetchImages();
+//        fetchImages();
         
 
 
@@ -127,48 +126,48 @@ public class gridPicaso extends AppCompatActivity {
 
 
 
-    private void fetchImages() {
-        int  ij = 0 ;
-        images.clear();
-        try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset());
-            JSONArray m_jArry = obj.getJSONArray("Urls");
-
-            for (int i = 0; i < m_jArry.length(); i++) {
-                Image image = new Image();
-                JSONObject object = m_jArry.getJSONObject(i);
-                image.setName(object.getString("name"));
-                JSONObject url = object.getJSONObject("url");
-                image.setSmall(url.getString("small"));
-                image.setMedium(url.getString("medium"));
-                image.setLarge(url.getString("large"));
-                images.add(image);
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mAdapter.notifyDataSetChanged();
-
-
-
-    }
-    @Override
-    public void onBackPressed() {
-
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 5000);
-    }
+//    private void fetchImages() {
+//        int  ij = 0 ;
+//        images.clear();
+//        try {
+//            JSONObject obj = new JSONObject(loadJSONFromAsset());
+//            JSONArray m_jArry = obj.getJSONArray("Urls");
+//
+//            for (int i = 0; i < m_jArry.length(); i++) {
+//                Image image = new Image();
+//                JSONObject object = m_jArry.getJSONObject(i);
+//                image.setName(object.getString("name"));
+//                JSONObject url = object.getJSONObject("url");
+//                image.setSmall(url.getString("small"));
+//                image.setMedium(url.getString("medium"));
+//                image.setLarge(url.getString("large"));
+//                images.add(image);
+//
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        mAdapter.notifyDataSetChanged();
+//
+//
+//
+//    }
+//    @Override
+//    public void onBackPressed() {
+//
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 5000);
+//    }
 }

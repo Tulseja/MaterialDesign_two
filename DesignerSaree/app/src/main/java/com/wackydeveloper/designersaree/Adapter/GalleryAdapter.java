@@ -24,7 +24,7 @@ import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder>     {
 
-    private List<Image> images;
+    private List<String> images;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -38,7 +38,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     }
 
-    public GalleryAdapter(Context context, List<Image> images) {
+    public GalleryAdapter(Context context, List<String> images) {
         mContext = context;
         this.images = images;
     }
@@ -56,14 +56,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Image image = images.get(position);
+        String url= images.get(position);
         final Picasso picasso = Picasso.with(mContext);
 //        picasso.setIndicatorsEnabled(true);
 //        picasso.setLoggingEnabled(true);
 //        picasso.resumeTag("Lazy Load");
 
         Picasso.with(mContext)
-                .load(image.getMedium())
+                .load(url)
                 .tag("Lazy Load")
                 .placeholder(R.drawable.placeholder)
                 .into(holder.thumbnail);

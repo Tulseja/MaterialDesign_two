@@ -1,5 +1,6 @@
 package com.wackydeveloper.designersaree;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -144,6 +145,7 @@ public class SwipeViewActivity extends AppCompatActivity {
             isLikeAlreadyPressed= true ;
             Log.e("Nikhil","Adding it to List.") ;
             setActionIcon();
+            Toast.makeText(this,"Liked!",Toast.LENGTH_LONG).show();
         }
         else {
             isLikeAlreadyPressed = true;
@@ -244,6 +246,9 @@ public static int getTopCardIndex() {
             case R.id.action_fav:
                 Toast.makeText(this, "Favourite Selected", Toast.LENGTH_SHORT)
                         .show();
+                Intent favImagActivity = new Intent(this,gridPicaso.class) ;
+                favImagActivity.putExtra("FAV_LIST",likedImages);
+                startActivity(favImagActivity);
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:

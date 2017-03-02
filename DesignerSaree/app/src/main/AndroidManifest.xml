@@ -20,7 +20,9 @@
         <activity
             android:name=".ImageLargeViewActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
-        <activity android:name=".favoriteImagesActivity"></activity>
+
+        <activity android:name=".gridPicaso" >
+        </activity>
     </application>
 
 </manifest>
