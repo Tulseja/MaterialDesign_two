@@ -1,6 +1,8 @@
 package com.wackydeveloper.designersaree;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
+import static com.wackydeveloper.designersaree.SwipeViewActivity.MyPREFERENCES;
 
 public class gridPicaso extends AppCompatActivity {
 
@@ -47,14 +50,32 @@ public class gridPicaso extends AppCompatActivity {
     private RecyclerView recyclerView;
     boolean doubleBackToExitPressedOnce = false;
 
+
     //private OnFragmentInteractionListener mListener;
+    private void LoadPreferences(){
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String  data = "" ;
+        for(int i = 1 ; i <  SwipeViewActivity.keyGenerator; i++){
+            String key = "URL_"+Integer.toString(i) ;
+            data = sharedPreferences.getString(key,"");
+            if(!images.contains(data)) {
+                images.add(data);
+            }
+            Log.e("Nikhil", data) ;
+            Log.d("Nikhil", Integer.toString(i) ) ;
+        }
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_picaso);
-        images = (ArrayList<String>) getIntent().getSerializableExtra("FAV_LIST");
+        images = new ArrayList<String>();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        LoadPreferences();
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
 

@@ -1,6 +1,8 @@
 package com.wackydeveloper.designersaree;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +39,10 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     public static final int STACK_SIZE = 4;
 
+    public static  int keyGenerator = 1 ;
+
+    public static final String MyPREFERENCES = "fileName" ;
+
     public static Boolean isLikeAlreadyPressed = false ;
 
     public static int topCardIndex  ;
@@ -52,6 +58,8 @@ public class SwipeViewActivity extends AppCompatActivity {
     private Button likeButton ;
 
     private Menu actionMenu ;
+
+    private SharedPreferences sharedpref  ;
 
     private GalleryAdapter mAdapter;
     // region Member Variables
@@ -79,7 +87,10 @@ public class SwipeViewActivity extends AppCompatActivity {
         likedImages = new ArrayList<String>() ;
         ActionBar actionBar = getSupportActionBar();
         actionBar.setSubtitle("Subtitile");
+        sharedpref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         fetchImages();
+
 
 
         tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
@@ -139,9 +150,19 @@ public class SwipeViewActivity extends AppCompatActivity {
 
     public void LikeButtonPressed(View v) {
 
+
+
         Log.e("Nikhil" , "Like Pressed . ") ;
         if(!isLikeAlreadyPressed) {
-            likedImages.add(images.get(getTopCardIndex()).getSmall());
+            SharedPreferences.Editor editor = sharedpref.edit();
+
+            String key = "URL_" + Integer.toString(keyGenerator++);
+            Log.e("Value of Key is : %s", key) ;
+            editor.putString(key,images.get(getTopCardIndex()).getSmall());
+
+            editor.commit();
+
+           // likedImages.add(images.get(getTopCardIndex()).getSmall());
             isLikeAlreadyPressed= true ;
             Log.e("Nikhil","Adding it to List.") ;
             setActionIcon();
@@ -236,6 +257,7 @@ public class SwipeViewActivity extends AppCompatActivity {
         return  tinderStackLayout.getChildCount() ;
     }
 
+
 public static int getTopCardIndex() {
         return topCardIndex ;
         }
@@ -244,10 +266,11 @@ public static int getTopCardIndex() {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_fav:
+
                 Toast.makeText(this, "Favourite Selected", Toast.LENGTH_SHORT)
                         .show();
                 Intent favImagActivity = new Intent(this,gridPicaso.class) ;
-                favImagActivity.putExtra("FAV_LIST",likedImages);
+//                favImagActivity.putExtra("FAV_LIST",likedImages);
                 startActivity(favImagActivity);
                 break;
             // action with ID action_settings was selected

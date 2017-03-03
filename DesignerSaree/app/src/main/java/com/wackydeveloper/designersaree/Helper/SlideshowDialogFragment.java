@@ -157,7 +157,7 @@ public class SlideshowDialogFragment extends DialogFragment {
                 public void onBitmapFailed(Drawable errorDrawable) {
                     // loading of the bitmap failed
                     // TODO do some action/warning/error message
-                    Toast.makeText(getContext(), "Can't Load this.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "Can't Load this.", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
