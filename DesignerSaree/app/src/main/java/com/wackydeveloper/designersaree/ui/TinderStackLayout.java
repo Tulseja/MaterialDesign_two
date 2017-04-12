@@ -84,7 +84,7 @@ public class TinderStackLayout extends FrameLayout {
         setUpRxBusSubscription();
     }
 
-    private void setUpRxBusSubscription(){
+    private void setUpRxBusSubscription() {
         Subscription rxBusSubscription = RxBus.getInstance().toObserverable()
                 .observeOn(AndroidSchedulers.mainThread()) // UI Thread
                 .subscribe(new Action1<Object>() {
@@ -94,24 +94,24 @@ public class TinderStackLayout extends FrameLayout {
                             return;
                         }
 
-                        if(event instanceof TopCardMovedEvent){
+                        if (event instanceof TopCardMovedEvent) {
                             float posX = ((TopCardMovedEvent) event).getPosX();
 
                             int childCount = getChildCount();
-                            for(int i=childCount-2; i>=0; i--){
+                            for (int i = childCount - 2; i >= 0; i--) {
                                 TinderCardView tinderCardView = (TinderCardView) getChildAt(i);
 
-                                if(tinderCardView != null){
-                                    if(Math.abs(posX) == (float)screenWidth){
-                                        float scaleValue = 1 - ((childCount-2-i)/50.0f);
+                                if (tinderCardView != null) {
+                                    if (Math.abs(posX) == (float) screenWidth) {
+                                        float scaleValue = 1 - ((childCount - 2 - i) / 50.0f);
 
                                         tinderCardView.animate()
-                                            .x(0)
-                                            .y((childCount-2-i) * yMultiplier)
-                                            .scaleX(scaleValue)
-                                            .rotation(0)
-                                            .setInterpolator(new AnticipateOvershootInterpolator())
-                                            .setDuration(DURATION);
+                                                .x(0)
+                                                .y((childCount - 2 - i) * yMultiplier)
+                                                .scaleX(scaleValue)
+                                                .rotation(0)
+                                                .setInterpolator(new AnticipateOvershootInterpolator())
+                                                .setDuration(DURATION);
                                     } else {
 //                                        float multiplier =  (DisplayUtility.dp2px(getContext(), 8)) / (float)screenWidth;
 //                                        float dy = -(Math.abs(posX * multiplier));
@@ -138,7 +138,6 @@ public class TinderStackLayout extends FrameLayout {
 
         int width = DisplayUtility.getScreenWidth(getContext());
         int height = DisplayUtility.getScreenHeight(getContext());
-        int param = height +getActionBarHeight() ;
         layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addView(tc, 0, layoutParams);
 
@@ -150,16 +149,5 @@ public class TinderStackLayout extends FrameLayout {
             .scaleX(scaleValue)
             .setInterpolator(new AnticipateOvershootInterpolator())
             .setDuration(DURATION);
-    }
-    // endregion
-    public int getActionBarHeight(){
-        TypedValue tv = new TypedValue();
-        int actionBarHeight  = 0  ;
-        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
-
-        return actionBarHeight ;
     }
 }

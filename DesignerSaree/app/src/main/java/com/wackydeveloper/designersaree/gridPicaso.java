@@ -28,6 +28,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,23 +52,7 @@ public class gridPicaso extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
 
 
-    //private OnFragmentInteractionListener mListener;
-    private void LoadPreferences(){
-        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String  data = "" ;
-        for(int i = 1 ; i <  SwipeViewActivity.keyGenerator; i++){
-            String key = "URL_"+Integer.toString(i) ;
-            data = sharedPreferences.getString(key,"");
-            if(!images.contains(data)) {
-                images.add(data);
-            }
-            Log.e("Nikhil", data) ;
-            Log.d("Nikhil", Integer.toString(i) ) ;
-        }
-
-
-    }
-
+    //private OnFragmentInteractionListener mListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +63,9 @@ public class gridPicaso extends AppCompatActivity {
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
-
             final Picasso picasso = Picasso.with(getApplicationContext());
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState){
-
                 if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_SETTLING  ) {
                     picasso.resumeTag("Lazy Load");
                 } else {
@@ -93,7 +75,6 @@ public class gridPicaso extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView rc , int dx , int dy){
                 picasso.resumeTag("Lazy Load");
-
             }
  });
 //        pDialog = new ProgressDialog(getApplicationContext());
@@ -122,12 +103,6 @@ public class gridPicaso extends AppCompatActivity {
 
             }
         }));
-
-
-//        fetchImages();
-        
-
-
     }
     public String loadJSONFromAsset() {
         String json = null;
@@ -145,50 +120,15 @@ public class gridPicaso extends AppCompatActivity {
         return json;
     }
 
-
-
-//    private void fetchImages() {
-//        int  ij = 0 ;
-//        images.clear();
-//        try {
-//            JSONObject obj = new JSONObject(loadJSONFromAsset());
-//            JSONArray m_jArry = obj.getJSONArray("Urls");
-//
-//            for (int i = 0; i < m_jArry.length(); i++) {
-//                Image image = new Image();
-//                JSONObject object = m_jArry.getJSONObject(i);
-//                image.setName(object.getString("name"));
-//                JSONObject url = object.getJSONObject("url");
-//                image.setSmall(url.getString("small"));
-//                image.setMedium(url.getString("medium"));
-//                image.setLarge(url.getString("large"));
-//                images.add(image);
-//
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        mAdapter.notifyDataSetChanged();
-//
-//
-//
-//    }
-//    @Override
-//    public void onBackPressed() {
-//
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            return;
-//        }
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce=false;
-//            }
-//        }, 5000);
-//    }
+private void LoadPreferences(){
+    SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+    String  data = "" ;
+    for(int i = 1 ; i <  SwipeViewActivity.keyGenerator; i++){
+        String key = "URL_"+Integer.toString(i) ;
+        data = sharedPreferences.getString(key,"");
+        if(!images.contains(data)) {
+            images.add(data);
+        }
+    }
+}
 }

@@ -68,7 +68,7 @@ public class SwipeViewActivity extends AppCompatActivity {
     // endregion
 
     // region Listeners
-    // endregion
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,14 +85,10 @@ public class SwipeViewActivity extends AppCompatActivity {
         topCardIndex = 0 ;
         images = new ArrayList<Image>();
         likedImages = new ArrayList<String>() ;
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setSubtitle("Subtitile");
+        getSupportActionBar().setSubtitle("Subtitile");
         sharedpref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         fetchImages();
-
-
-
         tinderStackLayout = (TinderStackLayout) findViewById(R.id.tsl);
         likeButton = (Button)findViewById(R.id.like_button);
 
@@ -149,28 +145,20 @@ public class SwipeViewActivity extends AppCompatActivity {
     }
 
     public void LikeButtonPressed(View v) {
-
-
-
-        Log.e("Nikhil" , "Like Pressed . ") ;
         if(!isLikeAlreadyPressed) {
             SharedPreferences.Editor editor = sharedpref.edit();
-
             String key = "URL_" + Integer.toString(keyGenerator++);
             Log.e("Value of Key is : %s", key) ;
             editor.putString(key,images.get(getTopCardIndex()).getSmall());
-
             editor.commit();
 
            // likedImages.add(images.get(getTopCardIndex()).getSmall());
             isLikeAlreadyPressed= true ;
-            Log.e("Nikhil","Adding it to List.") ;
             setActionIcon();
             Toast.makeText(this,"Liked!",Toast.LENGTH_LONG).show();
         }
         else {
-            isLikeAlreadyPressed = true;
-            Log.e("Nikhil" ,"Not Adding it to List.") ;
+            isLikeAlreadyPressed = true ;
         }
     }
     private void setActionIcon()
@@ -198,9 +186,6 @@ public class SwipeViewActivity extends AppCompatActivity {
         }
         return json;
     }
-
-
-
     private void fetchImages() {
         int  ij = 0 ;
 
